@@ -29,7 +29,7 @@ class Recipe:
         return instructions
 
 
-    def get_ingredients(self):
+    def get_ingredients(self, size=1):
         """
         Returns the ingredients in a dictionary in the following way:
         
@@ -39,7 +39,7 @@ class Recipe:
         for line in self.text[4:]:
             if line.startswith("*"):
                 ingred = line.split("\t")
-                no = ingred[1]
+                no = ingred[1]*size
                 unit = ingred[2]
                 entity = ingred[3]
                 ing_dict[entity] = {unit: no}
@@ -92,6 +92,8 @@ class Recipe:
         if self.serving_size == serving_size:
             return self.serving_size
         else:
+            relation = self.serving_size/serving_size
+            self.get_ingredients(size=relation)
             return serving_size
 
     @classmethod
